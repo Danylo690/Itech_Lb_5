@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php
-    include "connect.php";
+    include "connect.php"
     ?>
     <form action="selectByProcessor.php" method="POST">
         <h3>Get computers by processor name</h3>
