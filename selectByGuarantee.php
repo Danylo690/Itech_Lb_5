@@ -26,12 +26,15 @@
             $sql = "SELECT a.ID_Computer, a.netname, a.motherboard,
             a.RAM_capacity, a.HDD_capacity, a.monitor,
             a.vendor, a.guarantee from computer as a 
-            where TIMESTAMPDIFF(DAY, STR_TO_DATE('$current_date', '%Y, %m, %d'), a.guarantee) < 0";
+            where TIMESTAMPDIFF(DAY, STR_TO_DATE(:current_date, '%Y, %m, %d'), a.guarantee) < 0";
+            $prepared = $conn->prepare($sql);
+            $prepared->execute(array('current_date' => $current_date));
+            $table = $prepared->fetchAll(PDO::FETCH_NUM);
             $i = 0;
-            foreach($conn->query($sql) as $result)
+            foreach($table as $result)
             {
                 print "<tr>";
-                while($i != count($result)/2)
+                while($i != count($result))
                 {
                     print "<td> $result[$i] </td>";
                     $i++;

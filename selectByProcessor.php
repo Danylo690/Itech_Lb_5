@@ -30,12 +30,15 @@
                 a.vendor, a.guarantee, b.name, b.frequency from computer as a 
                 inner join processor as b
                 on a.FID_Processor = b.ID_Processor 
-                where b.name = '$Processor'";
+                where b.name = :Processor";
+                $prepared = $conn->prepare($sql);
+                $prepared->execute(array('Processor' => $Processor));
+                $table = $prepared->fetchAll(PDO::FETCH_NUM);
                 $i = 0;
-                foreach($conn->query($sql) as $result)
+                foreach( $table as $result)
                 {
                     print "<tr>";
-                    while($i != count($result)/2)
+                    while($i != count($result))
                     {
                         print "<td> $result[$i] </td>";
                         $i++;

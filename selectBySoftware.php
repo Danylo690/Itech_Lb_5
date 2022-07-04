@@ -30,12 +30,15 @@
                 on a.FID_Software = b.ID_Software
                 inner join computer as c
                 on a.FID_computer = c.ID_Computer
-                where b.name = '$Software'";
+                where b.name = :Software";
                 $i = 0;
-                foreach($conn->query($sql) as $result)
+                $prepared = $conn->prepare($sql);
+                $prepared->execute(array('Software' => $Software));
+                $table = $prepared->fetchAll(PDO::FETCH_NUM);
+                foreach($table as $result)
                 {
                     print "<tr>";
-                    while($i != count($result)/2)
+                    while($i != count($result))
                     {
                         print "<td> $result[$i] </td>";
                         $i++;
